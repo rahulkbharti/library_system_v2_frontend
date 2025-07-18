@@ -10,24 +10,25 @@ import PublicRoutes from "./PublicRoutes";
 
 import DashboardPage from "../pages/dashboard/DashboardPage";
 
-import TransactionsPage from "../pages/transactions";
+// import TransactionsPage from "../pages/transactions";
 // import UsersPage from "../pages/users";
-import PermissionManagement from "../pages/auth/permission/PermissionManagement";
+// import PermissionManagement from "../pages/auth/permission/PermissionManagement";
 import TestAPIs from "../pages/common/TestAPIs";
 // import UserTable from "../pages/test/UserTable";
-import StudentData from "../pages/test/UserTable";
+// import StudentData from "../pages/test/UserTable";
 import BookPage from "../pages/library_management/BookPage";
 import StudentPage from "../pages/users_accounts/StudentPage";
 import StaffPage from "../pages/users_accounts/StaffPage";
 import GroupPage from "../pages/roles_permissions/GroupPage";
 import SeatPage from "../pages/library_management/SeatPage";
-import EnhancedTransferList from "../pages/test/TransferList";
-import PermissionTransferList from "../pages/test/PermissionTransfer";
+// import EnhancedTransferList from "../pages/test/TransferList";
+import PermissionTransferList from "../pages/roles_permissions/PermissionTransfer";
 import BookCopyPage from "../pages/library_management/BookCopyPage";
 import SeatReservationsPage from "../pages/library_management/SeatsReservationPage";
 import FeesPage from "../pages/fees_payments/FeesPage";
 import MemberFeesPage from "../pages/fees_payments/MemberFeesPage";
 import PaymentsPage from "../pages/fees_payments/PaymentPage";
+import OrganizationPage from "../pages/oraganizations/OrganizationsPage";
 
 const MainRoutes = () => {
   return (
@@ -56,7 +57,7 @@ const MainRoutes = () => {
            <Route path="/fees/student-fees" element={<MemberFeesPage/>}/>
            <Route path="/fees/payments" element={<PaymentsPage/>}/>
            {/* Orgnaization Only For Admins */}
-           <Route path="/organization" element={"Orgnizations"}/>
+           <Route path="/organization" element={<OrganizationPage/>}/>
            <Route path="/profile" element={"Profile"}/>
            <Route path="/setting" element={"Setting"}/>
            <Route path="/help" element={"Help"}/>

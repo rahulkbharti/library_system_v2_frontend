@@ -294,10 +294,11 @@ const Header = () => {
             />
             <Box>
               <Typography variant="subtitle1" fontWeight={600}>
-                {userData?.first_name?.charAt(0).toUpperCase() + userData?.first_name?.slice(1)} {userData?.last_name?.charAt(0).toUpperCase() + userData?.last_name?.slice(1)}
+                {userData?.first_name?.charAt(0).toUpperCase() + userData?.first_name?.slice(1)} {userData?.last_name?.charAt(0).toUpperCase() + userData?.last_name?.slice(1)} {userData?.role!= "admin" && (`(ORG${userData?.organization_id
+})`)}
               </Typography>
               <Typography variant="caption" color="textSecondary">
-                {userData?.role?.charAt(0).toUpperCase() + userData?.role?.slice(1)} {userData?.email ? `(${userData?.email})` : ""}
+                {userData?.role?.charAt(0).toUpperCase() + userData?.role?.slice(1)} {userData?.email ? `(${userData?.email})` : ""} 
               </Typography>
             </Box>
           </Box>

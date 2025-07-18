@@ -44,8 +44,8 @@ const menuItems = [
 ];
 
 const secondaryItems = [
-  { id: "organization", icon: <OrganizationIcon />, label: "Organization", link: "/organization" },
-  { id: "logout", icon: <LogoutIcon />, label: "Logout", link: "/logout" },
+  // { id: "organization", icon: <OrganizationIcon />, label: "Organization", link: "/organization" },
+  // { id: "logout", icon: <LogoutIcon />, label: "Logout", link: "/logout" },
 ];
 
 // --- Styled Components (Changes are here) ---
