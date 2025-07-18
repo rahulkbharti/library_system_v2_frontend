@@ -16,13 +16,18 @@ import PermissionManagement from "../pages/auth/permission/PermissionManagement"
 import TestAPIs from "../pages/common/TestAPIs";
 // import UserTable from "../pages/test/UserTable";
 import StudentData from "../pages/test/UserTable";
-import BookPage from "../pages/books/BookPage";
-import StudentPage from "../pages/users/StudentPage";
-import StaffPage from "../pages/users/StaffPage";
-import GroupPage from "../pages/roles/GroupPage";
-import SeatPage from "../pages/books/SeatPage";
+import BookPage from "../pages/library_management/BookPage";
+import StudentPage from "../pages/users_accounts/StudentPage";
+import StaffPage from "../pages/users_accounts/StaffPage";
+import GroupPage from "../pages/roles_permissions/GroupPage";
+import SeatPage from "../pages/library_management/SeatPage";
 import EnhancedTransferList from "../pages/test/TransferList";
 import PermissionTransferList from "../pages/test/PermissionTransfer";
+import BookCopyPage from "../pages/library_management/BookCopyPage";
+import SeatReservationsPage from "../pages/library_management/SeatsReservationPage";
+import FeesPage from "../pages/fees_payments/FeesPage";
+import MemberFeesPage from "../pages/fees_payments/MemberFeesPage";
+import PaymentsPage from "../pages/fees_payments/PaymentPage";
 
 const MainRoutes = () => {
   return (
@@ -33,9 +38,9 @@ const MainRoutes = () => {
            {/* Libray Management */}
            <Route path="/library-management" element={"Library Mangenegment Dashboard"}/>
            <Route path="/library-management/books" element={<BookPage/>}/>
-           <Route path="/library-management/copies" element={"Books Copies"}/>
+           <Route path="/library-management/copies" element={<BookCopyPage/>}/>
            <Route path="/library-management/seats" element={<SeatPage/>}/>
-           <Route path="/library-management/reservations" element={<EnhancedTransferList/>}/>
+           <Route path="/library-management/reservations" element={<SeatReservationsPage/>}/>
            {/* Users And Accounts */}
            <Route path="/users" element={"users and controls overview"}/>
            <Route path="/users/admins" element={"Admin Controls Page"}/>
@@ -47,20 +52,14 @@ const MainRoutes = () => {
            <Route path="/roles/permissions" element={<PermissionTransferList/>}/>
            {/* Fees and Payment */}
            <Route path="/fees" element={"Fee and Payments"}/>
-           <Route path="/fees/fees" element={"Fee "}/>
-           <Route path="/fees/student-fees" element={"Student Fees"}/>
-           <Route path="/fees/payments" element={"Payment"}/>
+           <Route path="/fees/fees" element={<FeesPage/>}/>
+           <Route path="/fees/student-fees" element={<MemberFeesPage/>}/>
+           <Route path="/fees/payments" element={<PaymentsPage/>}/>
            {/* Orgnaization Only For Admins */}
            <Route path="/organization" element={"Orgnizations"}/>
            <Route path="/profile" element={"Profile"}/>
            <Route path="/setting" element={"Setting"}/>
            <Route path="/help" element={"Help"}/>
-          {/* <Route path="/" index element={<DashboardPage/>} />
-          <Route path="/users" element={<UsersPage/>} />
-          <Route path="/users/admins" element={<UsersPage/>} />
-          <Route path="/books" element={<BooksPage/>} />
-          <Route path="/transactions" element={<TransactionsPage/>} />
-          <Route path="/permissions" element={<PermissionManagement/>}/> */}
         </Route>
         <Route path="/login" element={<PublicRoutes><LoginPage/> </PublicRoutes>}/>
         <Route path="/register" element={<PublicRoutes><RegisterPage/> </PublicRoutes>}/>

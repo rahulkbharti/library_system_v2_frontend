@@ -9,8 +9,8 @@ const StaffPage = () => {
     useEffect(() => {
         const fetchStaff = async () => {
             const response = await staffApi.getStaffs();
-            console.log("Staffs:", response.data);
-            setStaffs(response.data.staffs);
+            console.log("Staffs:", response?.staffs);
+            setStaffs( response?.staffs);
         };
         fetchStaff();
     }, []);

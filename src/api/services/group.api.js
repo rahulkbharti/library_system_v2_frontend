@@ -1,9 +1,10 @@
-import { axiosInstance } from "../axiosInstance"
+import { axiosInstance } from "../axiosInstance";
+import { handleApiRequest } from "../apiHandeler";
+
 const groupApi = {
   getGroups: async () => {
-     return await axiosInstance.get("/roles/groups");
+    return handleApiRequest(() => axiosInstance.get("/roles/groups"));
   }
-
-}
+};
 
 export default groupApi;

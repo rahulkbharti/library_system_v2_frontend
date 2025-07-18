@@ -3,7 +3,6 @@ import DataTable from '../common/DataTable';
 import seatApi from '../../api/services/seats.api';
 
 const SeatPage = () => {
-    
     const [seats,setSeats] = useState([]);
     useEffect(() => {
         const fetchSeats = async () => {

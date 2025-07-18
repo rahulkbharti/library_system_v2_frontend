@@ -1,9 +1,10 @@
-import { axiosInstance } from "../axiosInstance"
+import { axiosInstance } from "../axiosInstance";
+import { handleApiRequest } from "../apiHandeler";
+
 const staffApi = {
   getStaffs: async () => {
-     return await axiosInstance.get("/users/staff");
+    return handleApiRequest(() => axiosInstance.get("/users/staff"));
   }
-
-}
+};
 
 export default staffApi;

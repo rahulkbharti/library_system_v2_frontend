@@ -8,8 +8,12 @@ const BookPage = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await bookApi.getBooks();
-            console.log("Books:", response.data.books);
-            setBooks(response.data.books);
+            if(response.error) {
+               setBooks([]);
+               return;
+            }
+            console.log("Books:", response?.books);
+            setBooks(response?.books);
         };
         fetchBooks();
     }, []);

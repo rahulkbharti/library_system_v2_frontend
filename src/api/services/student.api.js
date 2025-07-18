@@ -1,9 +1,10 @@
-import { axiosInstance } from "../axiosInstance"
+import { axiosInstance } from "../axiosInstance";
+import { handleApiRequest } from "../apiHandeler";
+
 const studentApi = {
   getStudents: async () => {
-     return await axiosInstance.get("/users/student");
+    return handleApiRequest(() => axiosInstance.get("/users/student"));
   }
-
-}
+};
 
 export default studentApi;

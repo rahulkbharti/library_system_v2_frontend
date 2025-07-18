@@ -8,8 +8,8 @@ const GroupPage = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             const response = await groupApi.getGroups();
-            console.log("Groups:", response.data);
-            setGroups(response.data.groups);
+            console.log("Groups:", response?.data);
+            setGroups(response?.groups);
         };
         fetchGroups();
     }, []);

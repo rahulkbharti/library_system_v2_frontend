@@ -8,8 +8,8 @@ const StudentPage = () => {
     useEffect(() => {
         const fetchStudents = async () => {
             const response = await studentApi.getStudents();
-            console.log("Students:", response.data.students);
-            setStudents(response.data.students);
+            console.log("Students:", response?.students);
+            setStudents(response?.students);
         };
         fetchStudents();
     }, []);
