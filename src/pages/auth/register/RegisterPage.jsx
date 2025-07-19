@@ -19,6 +19,8 @@ import registerSchema from "../../../schema/auth/registerSchema";
 import axios from "axios";
 import SearchBox from "../../common/SearchBox";
 import React from "react";
+const AUTH_URL = import.meta.env.VITE_API_URL;
+
 
 const organizations = [
   { id: 101, name: "Google" },
@@ -61,7 +63,7 @@ const RegisterPage = () => {
       console.log(body);
       try {
         const res = await axios.post(
-          `http://localhost:3000/auth/${values.role}/register`,
+          `${AUTH_URL}/auth/${values.role}/register`,
           body
         );
         alert("User Resitered Successfully");

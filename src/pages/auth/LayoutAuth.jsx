@@ -1,4 +1,4 @@
-import { Button, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

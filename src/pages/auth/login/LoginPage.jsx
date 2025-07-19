@@ -19,9 +19,9 @@ import loginSchema from "../../../schema/auth/loginSchema";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/features/auth/authSlice";
+const AUTH_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage = () => {
-
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -36,7 +36,7 @@ const LoginPage = () => {
       delete body.role;
       try {
         const res = await axios.post(
-          `http://localhost:3000/auth/${values.role}/login`,
+          `${AUTH_URL}/auth/${values.role}/login`,
           body
         );
         alert("User Login Successfully");

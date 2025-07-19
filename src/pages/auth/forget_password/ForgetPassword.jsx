@@ -14,6 +14,7 @@ import { Box, color, display } from "@mui/system";
 import FormInput from "../../common/FormInput";
 import { Link } from "react-router-dom";
 import axios from "axios";
+const AUTH_URL = import.meta.env.VITE_API_URL;
 
 const ResetPasswordPage = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -38,7 +39,7 @@ const ResetPasswordPage = () => {
         // await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const res = await axios.post(
-          "http://localhost:3000/auth/forgot-password/send-otp",
+          `${AUTH_URL}/auth/forgot-password/send-otp`,
           values
         );
         // console.log(res);
