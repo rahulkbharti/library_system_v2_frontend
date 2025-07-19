@@ -32,7 +32,7 @@ const menuItems = [
       subItems: [
         { label: "Students", link: "/users/students" },
         { label: "Staffs", link: "/users/staffs" },
-        { label: "Admins", link: "/users/admins" },
+        // { label: "Admins", link: "/users/admins" },
       ] 
     },
     { id: "roles", icon: <RolesIcon />, label: "Roles and Permissions", 

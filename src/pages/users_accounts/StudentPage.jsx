@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from '../common/DataTable';
 import studentApi from '../../api/services/student.api';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StudentPage = () => {
-
+    const [loading, setLoading] = useState(true);
     const [students,setStudents] = useState([]);
     useEffect(() => {
         const fetchStudents = async () => {
             const response = await studentApi.getStudents();
+            if(response.error) {
+                console.error("Error fetching students:", response.error);
+                setStudents([]);
+                setLoading(false);
+                return;
+            }
             console.log("Students:", response?.students);
             setStudents(response?.students);
+            setLoading(false);
         };
         fetchStudents();
+        setLoading(true);
     }, []);
 
 
@@ -42,6 +51,7 @@ const columns = [
         data={students}
         controls={controls}
         onAdd={()=>{alert("add Student")}}
+        emptyStateComponent={loading ? <CircularProgress /> : "No students available"}
       />
     </div>
   );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from '../common/DataTable';
+import CircularProgress from '@mui/material/CircularProgress';
+
 // No API import needed as we are using dummy data
 // import bookCopyApi from '../../api/services/bookCopy.api'; 
 
@@ -15,7 +17,7 @@ const dummyBookCopies = [
 
 
 const BookCopyPage = () => {
-    
+    const [loading, setLoading] = useState(true);
     const [bookCopies, setBookCopies] = useState([]);
 
     useEffect(() => {
@@ -58,6 +60,7 @@ const BookCopyPage = () => {
         data={bookCopies} 
         controls={controls} 
         onAdd={() => {alert("Add New Book Copy")}}
+        emptyStateComponent={loading ? <CircularProgress /> : "No book copies available"}
       />
     </div>
   );

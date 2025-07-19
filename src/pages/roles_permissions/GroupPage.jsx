@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from '../common/DataTable';
 import groupApi from '../../api/services/group.api';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const GroupPage = () => {
-
+    const [loading, setLoading] = useState(true);
     const [groups,setGroups] = useState([]);
     useEffect(() => {
         const fetchGroups = async () => {
             const response = await groupApi.getGroups();
+            if(response.error) {
+                console.error("Error fetching groups:", response.error);
+                setGroups([]);
+                setLoading(false);
+                return;
+            }
             console.log("Groups:", response?.data);
             setGroups(response?.groups);
+            setLoading(false);
         };
         fetchGroups();
+        setLoading(true);
     }, []);
 
 
@@ -40,6 +49,7 @@ const columns = [
         data={groups}
         controls={controls}
         onAdd={()=>{alert("add Student")}}
+        emptyStateComponent={loading ? <CircularProgress /> : "No groups available"}
       />
     </div>
   );

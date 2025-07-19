@@ -2,20 +2,26 @@ import React, { useEffect, useState } from 'react';
 import DataTable from '../common/DataTable';
 import bookApi from '../../api/services/book.api';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 const BookPage = () => {
-    
+    const [loading, setLoading] = useState(true);
     const [books,setBooks] = useState([]);
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await bookApi.getBooks();
             if(response.error) {
                setBooks([]);
+               console.error("Error fetching books:", response.error);
+               setLoading(false);
                return;
             }
             console.log("Books:", response?.books);
             setBooks(response?.books);
+            setLoading(false);
         };
         fetchBooks();
+        setLoading(true);
     }, []);
 
 
@@ -42,12 +48,15 @@ const BookPage = () => {
 
   return (
     <div>
+      
       <DataTable 
         columns={columns} 
         data={books} 
         controls={controls} 
         onAdd={()=>{alert("add Book")}}
-      />
+        emptyStateComponent={loading ? <CircularProgress/> : "No books available"}
+      >
+      </DataTable>
     </div>
   );
 };

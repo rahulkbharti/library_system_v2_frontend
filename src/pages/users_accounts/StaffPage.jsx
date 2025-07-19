@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import DataTable from '../common/DataTable';
 import staffApi from '../../api/services/staff.api';
-import { width } from '@mui/system';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const StaffPage = () => {
-
+    const [loading, setLoading] = useState(true);
     const [staffs,setStaffs] = useState([]);
     useEffect(() => {
         const fetchStaff = async () => {
             const response = await staffApi.getStaffs();
+            if(response.error) {
+                console.error("Error fetching staffs:", response.error);
+                setStaffs([]);
+                setLoading(false);
+                return;
+            }
             console.log("Staffs:", response?.staffs);
             setStaffs( response?.staffs);
+            setLoading(false);
         };
         fetchStaff();
+        setLoading(true);
     }, []);
 
 
@@ -44,6 +52,7 @@ const columns = [
         data={staffs}
         controls={controls}
         onAdd={()=>{alert("add Student")}}
+        emptyStateComponent={loading ? <CircularProgress /> : "No staffs available"}
       />
     </div>
   );
