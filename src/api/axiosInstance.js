@@ -2,7 +2,8 @@ import axios from "axios";
 import { store } from "../store/store";
 import {login as setLoginState, logout as setLogout} from "../store/features/auth/authSlice";
 
-const AUTH_URL = "http://localhost:3000"; // Update with your actual API URL
+// --- Configuration ---
+const AUTH_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const axiosInstance = axios.create({
   baseURL: AUTH_URL,
