@@ -6,17 +6,16 @@ import {
   TableHead, TableRow, TablePagination, Chip, IconButton, Stack, Dialog,
   DialogTitle, DialogContent, DialogActions, Tooltip
 } from '@mui/material';
-import {
-  Search as SearchIcon,
-  Add as AddIcon,
-  FilterList as FilterIcon,
-  Visibility as ViewIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Star as StarIcon,
-  ImportExport as SortIcon,
-  Close as CloseIcon
-} from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+import FilterIcon from '@mui/icons-material/FilterList';
+import ViewIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import StarIcon from '@mui/icons-material/Star';
+import SortIcon from '@mui/icons-material/ImportExport';
+import CloseIcon from '@mui/icons-material/Close';
+
 import { styled } from '@mui/system';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';

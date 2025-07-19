@@ -1,13 +1,20 @@
-import React, { useState, useEffect, useMemo, memo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { 
   Box, List, ListItemButton, ListItemIcon, ListItemText, Divider, Typography,
   Collapse, styled, Avatar, useTheme
 } from "@mui/material";
-import { 
-  Dashboard as DashboardIcon, LibraryBooks as LibraryIcon, People as UsersIcon, 
-  Lock as RolesIcon, AttachMoney as FeesIcon, ExitToApp as LogoutIcon, 
-  ExpandLess, ExpandMore, Business as OrganizationIcon
-} from "@mui/icons-material";
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LibraryIcon from '@mui/icons-material/LibraryBooks';
+import UsersIcon from '@mui/icons-material/People';
+import RolesIcon from '@mui/icons-material/Lock';
+import FeesIcon from '@mui/icons-material/AttachMoney';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import OrganizationIcon from '@mui/icons-material/Business';
+
+
 import { NavLink, useLocation } from "react-router-dom";
 
 // --- Data Configuration (No changes here) ---

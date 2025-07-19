@@ -16,15 +16,14 @@ import {
     Avatar,
     IconButton,
 } from "@mui/material";
-import {
-    Print as PrintIcon,
-    Visibility as ViewIcon,
-    Event as EventIcon,
-    Book as BookIcon,
-    Person as PersonIcon,
-    EventAvailable as DueIcon,
-    AssignmentReturn as ReturnIcon,
-} from "@mui/icons-material";
+import PrintIcon from '@mui/icons-material/Print';
+import ViewIcon from '@mui/icons-material/Visibility';
+import EventIcon from '@mui/icons-material/Event';
+import BookIcon from '@mui/icons-material/Book';
+import PersonIcon from '@mui/icons-material/Person';
+import DueIcon from '@mui/icons-material/EventAvailable';
+import ReturnIcon from '@mui/icons-material/AssignmentReturn';
+
 import { printComponent } from "./printTransaction";
 
 // Transaction Overview Dialog Component

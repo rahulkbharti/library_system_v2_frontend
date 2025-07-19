@@ -6,19 +6,18 @@ import {
   TableHead, TableRow, LinearProgress, Button, 
   TextField, InputAdornment, Badge, Tooltip
 } from '@mui/material';
-import {
-  Search as SearchIcon,
-  Notifications as NotificationsIcon,
-  MenuBook as BooksIcon,
-  People as MembersIcon,
-  EventAvailable as IssuedIcon,
-  EventBusy as OverdueIcon,
-  BarChart as StatsIcon,
-  AccessTime as RecentIcon,
-  CalendarToday as DueIcon,
-  Add as AddIcon,
-  Refresh as RefreshIcon
-} from '@mui/icons-material';
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import BooksIcon from '@mui/icons-material/MenuBook';
+import MembersIcon from '@mui/icons-material/People';
+import IssuedIcon from '@mui/icons-material/EventAvailable';
+import OverdueIcon from '@mui/icons-material/EventBusy';
+import StatsIcon from '@mui/icons-material/BarChart';
+import RecentIcon from '@mui/icons-material/AccessTime';
+import DueIcon from '@mui/icons-material/CalendarToday';
+import AddIcon from '@mui/icons-material/Add';
+import RefreshIcon from '@mui/icons-material/Refresh';
+
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, 
          ResponsiveContainer, XAxis, YAxis, CartesianGrid, 
          Tooltip as ChartTooltip, Legend, Cell } from 'recharts';

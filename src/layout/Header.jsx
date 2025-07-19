@@ -15,16 +15,15 @@ import {
   ListItemText,
   List,
 } from "@mui/material";
-import {
-  Search as SearchIcon,
-  Notifications as NotificationsIcon,
-  AccountCircle as AccountIcon,
-  Settings as SettingsIcon,
-  ExitToApp as LogoutIcon,
-  Help as HelpIcon,
-  CheckCircle as CheckCircleIcon,
-  Business,
-} from "@mui/icons-material";
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import AccountIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/ExitToApp';
+import HelpIcon from '@mui/icons-material/Help';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Business from '@mui/icons-material/Business';
+
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/auth/authSlice";
 import { Link } from "react-router-dom";

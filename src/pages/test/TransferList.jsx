@@ -15,12 +15,11 @@ import {
   TextField,
   IconButton
 } from '@mui/material';
-import {
-  ChevronRight as ChevronRightIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ExpandMore as ExpandMoreIcon,
-  Search as SearchIcon
-} from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 const EnhancedTransferList = () => {
   // Sample data with categories

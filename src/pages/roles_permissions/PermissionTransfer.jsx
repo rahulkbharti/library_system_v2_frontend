@@ -4,10 +4,12 @@ import {
   TextField, IconButton, Chip, FormControl, InputLabel, Select, MenuItem, Container,
   CircularProgress, Snackbar, Alert
 } from '@mui/material';
-import {
-  ChevronRight as ChevronRightIcon, ChevronLeft as ChevronLeftIcon, 
-  Search as SearchIcon, Lock as LockIcon, Save as SaveIcon
-} from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import SearchIcon from '@mui/icons-material/Search';
+import LockIcon from '@mui/icons-material/Lock';
+import SaveIcon from '@mui/icons-material/Save';
+
 import groupApi from '../../api/services/group.api';
 
 // --- Configuration (No changes here) ---
