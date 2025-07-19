@@ -1,7 +1,8 @@
- const googleAuth = useGoogleLogin({
+const AUTH_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const googleAuth = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const res = await axios.post('http://localhost:3000/auth/google-login', {
+        const res = await axios.post(`${AUTH_URL}/auth/google-login`, {
           access_token: tokenResponse.access_token,
         });
 

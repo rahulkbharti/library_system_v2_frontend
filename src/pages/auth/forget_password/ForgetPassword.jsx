@@ -69,7 +69,7 @@ const ResetPasswordPage = () => {
         setError("");
         // Simulate OTP verification
         const res = await axios.post(
-          "http://localhost:3000/auth/forgot-password/verify-otp",
+          `${AUTH_URL}/auth/forgot-password/verify-otp`,
           body
         );
         console.log(res);
@@ -116,7 +116,7 @@ const ResetPasswordPage = () => {
         // await new Promise((resolve) => setTimeout(resolve, 1000));
         console.log(body);
         const res = await axios.post(
-          "http://localhost:3000/auth/forgot-password/reset-password",
+          `${AUTH_URL}/auth/forgot-password/reset-password`,
           body
         );
         console.log(res);

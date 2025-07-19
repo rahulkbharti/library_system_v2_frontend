@@ -13,6 +13,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import styled from "styled-components";
 import { useState } from "react";
 import SearchBox from "../common/AutoComplete"; // simple autocomplete without Formik
+const AUTH_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const GoogleButton = styled(Button)`
   text-transform: none;
@@ -45,7 +46,7 @@ const GoogleAuth = ({ extraData }) => {
 
       // console.log("Form data", body);
       try {
-        const res = await axios.post("http://localhost:3000/auth/google/continue", body);
+        const res = await axios.post(`${AUTH_URL}/auth/google/continue`, body);
         dispatch(login(res.data));
         alert(`Welcome ${res.data?.userData?.first_name} ${res?.data?.userData?.last_name}!`);
       } catch (error) {
