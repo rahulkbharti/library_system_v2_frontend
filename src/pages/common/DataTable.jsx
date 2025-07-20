@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { object } from "prop-types";
 import {
   Box,
   Paper,
@@ -33,6 +33,11 @@ const DataTable = ({
   onSelectionChange,
   emptyStateComponent,
 }) => {
+
+
+  // console.log();
+  const id = Object.keys(data[0] || {})[0]; // Assuming the first key is the unique identifier
+
   const theme = useTheme();
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
@@ -40,7 +45,7 @@ const DataTable = ({
 
   const handleSelectAllClick = useCallback(
     (e) => {
-      const newSelected = e.target.checked ? data.map((row) => row.id) : [];
+      const newSelected = e.target.checked ? data.map((row) => row[id]) : [];
       setSelected(newSelected);
       onSelectionChange?.(newSelected);
     },
@@ -154,10 +159,10 @@ const DataTable = ({
             <TableBody>
               {visibleRows.length > 0 ? (
                 visibleRows.map((row) => {
-                  const isItemSelected = isSelected(row.id);
+                  const isItemSelected = isSelected(row[id]);
                   return (
                     <TableRow
-                      key={row.id}
+                      key={row[id]}
                       hover
                       selected={isItemSelected}
                       sx={{
@@ -172,8 +177,8 @@ const DataTable = ({
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
-                          onChange={() => handleRowSelect(row.id)}
-                          inputProps={{ "aria-label": `select item ${row.id}` }}
+                          onChange={() => handleRowSelect(row[id])}
+                          inputProps={{ "aria-label": `select item ${row[id]}` }}
                         />
                       </TableCell>
                       {columns.map((column) => (
