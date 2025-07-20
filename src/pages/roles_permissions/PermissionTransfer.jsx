@@ -304,7 +304,7 @@ const PermissionPage = () => {
 
       {selectedGroup && (
         <>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid container spacing={2} alignItems="center">
             <Grid item>
               <PermissionList
                 title="Available Permissions"

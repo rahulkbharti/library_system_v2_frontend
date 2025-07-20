@@ -30,8 +30,9 @@ const columns = [
     {id:'full_name', label: 'Name', render: row => `${row.first_name} ${row.last_name}`},
     {id:'email', label: 'Email'},
     {id:'phone', label: 'Mobile No.'},
-    {id:"group_id", label: "Group"},
-];
+    {id:"group_id", label: "Group", render: row => row.group_id ? row.group_id : 'N/A'},
+    {id : 'organization_id', label: 'Organization'},
+];  
 
   // Control functions
   const controls = {

@@ -38,6 +38,7 @@ const BookCopyPage = () => {
         </span>
       )
     },
+    {id: 'organization_id', label: 'Organization' },
   ];
 
   // Fetch book copies

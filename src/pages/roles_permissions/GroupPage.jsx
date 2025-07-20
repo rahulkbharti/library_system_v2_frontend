@@ -28,6 +28,8 @@ const GroupPage = () => {
 const columns = [
     {id:'id', label: 'Group ID', width:50},
     {id:"name", label:"Group Name"},  
+    {id:'description', label: 'Description'},
+    {id:'organization_id', label: 'Organization'},
 ];
 
   // Control functions

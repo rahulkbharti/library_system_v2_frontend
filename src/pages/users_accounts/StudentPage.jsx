@@ -30,6 +30,7 @@ const columns = [
     {id:'full_name', label: 'Name', render: row => `${row.first_name} ${row.last_name}`},
     {id:'email', label: 'Email'},
     {id:'program', label: 'Program'},
+    {id : 'organization_id', label: 'Organization'},
 ];
 
   // Control functions

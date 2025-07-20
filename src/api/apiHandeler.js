@@ -6,9 +6,10 @@ export const handleApiRequest = async (apiCall) => {
   } catch (error) {
     console.error(
       "API Error:",
-      error.response ? error.response.data : error.message
+      error
     );
-    const message = error.response?.data?.message || "An unexpected error occurred. Please try again.";
+    const message = error.response?.data?.error || "An unexpected error occurred. Please try again.";
+    alert(message);
     return { error: true, message: message };
   }
 };
