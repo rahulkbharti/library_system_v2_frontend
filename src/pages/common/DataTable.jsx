@@ -36,7 +36,7 @@ const DataTable = ({
 
 
   // console.log();
-  const id = Object.keys(data[0] || {})[0]; // Assuming the first key is the unique identifier
+  const id = Object.keys(data && data[0] ? data[0] : {"id":0})[0]; // Assuming the first key is the unique identifier
 
   const theme = useTheme();
   const [selected, setSelected] = useState([]);
@@ -128,14 +128,14 @@ const DataTable = ({
           <Table aria-label="data table" size="medium">
             <TableHead>
               <TableRow sx={{ backgroundColor: theme.palette.grey[50] }}>
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     indeterminate={selectedSome}
                     checked={selectedAll}
                     onChange={handleSelectAllClick}
                     inputProps={{ "aria-label": "select all items" }}
                   />
-                </TableCell>
+                </TableCell> */}
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -174,13 +174,13 @@ const DataTable = ({
                         },
                       }}
                     >
-                      <TableCell padding="checkbox">
+                      {/* <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           onChange={() => handleRowSelect(row[id])}
                           inputProps={{ "aria-label": `select item ${row[id]}` }}
                         />
-                      </TableCell>
+                      </TableCell> */}
                       {columns.map((column) => (
                         <TableCell
                           key={`${row.id}-${column.id}`}
