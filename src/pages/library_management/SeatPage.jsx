@@ -15,8 +15,8 @@ const SeatPage = () => {
                 setLoading(false);
                 return;
             }
-            console.log("Seats:", response.data);
-            setSeats(response.data.seats);
+            console.log("Seats:", response?.seats);
+            setSeats(response?.seats || []);
             setLoading(false);
         };
         fetchSeats();
@@ -26,11 +26,11 @@ const SeatPage = () => {
 
   // Column configuration
   const columns = [
-    {id:'book_id', label: 'Book ID'},
-    {id:'title', label: 'Title'},
-    {id:'publisher', label: 'Publisher'},
-    {id:'author', label: 'Author'},
-    {id:'isbn', label: 'ISBN'},
+    {id :'seat_id', label: 'Seat ID'},
+    {id :'seat_number', label: 'Seat Number'},
+    // {id :'status', label: 'Status', accessor: 'status'},
+    {id:'location', label: 'Location'},
+    {id :'organization_id', label: 'Organization ID'},
   ];
 
   // Control functions

@@ -15,7 +15,7 @@ const GroupPage = () => {
                 setLoading(false);
                 return;
             }
-            console.log("Groups:", response?.data);
+            console.log("Groups:", response?.groups);
             setGroups(response?.groups);
             setLoading(false);
         };
