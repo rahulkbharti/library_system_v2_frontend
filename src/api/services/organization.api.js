@@ -2,7 +2,15 @@ import { axiosInstance } from "../axiosInstance";
 import { handleApiRequest } from "../apiHandeler";
 
 const organizationApi = {
-  getOrganizations: async () => {
+  getOrganizations: async (created_by_admin) => {
+    if (created_by_admin) {
+      console.log("Fetching organizations for admin ID:", created_by_admin);
+      return handleApiRequest(() =>
+        axiosInstance.get("/organizations", {
+          params: { id: created_by_admin },
+        })
+      );
+    }
     return handleApiRequest(() => axiosInstance.get("/organizations"));
   },
   addOrganization: async (organizationData) => {

@@ -8,6 +8,7 @@ import {
   Link,
   RadioGroup,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import LayoutAuth from "../LayoutAuth";
 import { Box } from "@mui/system";
@@ -18,14 +19,9 @@ import GoogleAuth from "../GoogleAuth";
 import registerSchema from "../../../schema/auth/registerSchema";
 import axios from "axios";
 import SearchBox from "../../common/SearchBox";
-import React from "react";
+import React, { useEffect } from "react";
+import organizationApi from "../../../api/services/organization.api";
 const AUTH_URL = import.meta.env.VITE_API_URL;
-
-
-const organizations = [
-  { id: 101, name: "Google" },
-  { id: 102, name: "Microsoft" },
-];
 
 const RoleRadioGroup = React.memo(({ value, onChange }) => (
   <FormControl component="fieldset">
@@ -39,6 +35,8 @@ const RoleRadioGroup = React.memo(({ value, onChange }) => (
 ));
 
 const RegisterPage = () => {
+  const [organizations, setOrganizations] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -74,6 +72,27 @@ const RegisterPage = () => {
       }
     },
   });
+
+  useEffect(() => {
+    const fetchOrganizations = async () => {
+      const result = await organizationApi.getOrganizations();
+      if (result.error) {
+        console.error("Error fetching organizations:", result.error);
+        return;
+      }
+      // Map the organizations to the required format
+      setOrganizations(
+        result?.organizations.map((org) => ({
+          id: org.organization_id,
+          name: org.name,
+        })) || []
+      );
+      setLoading(false);
+    };
+    fetchOrganizations();
+    setLoading(true);
+  }, []);
+
   return (
     <LayoutAuth
       coverImage={
@@ -96,6 +115,7 @@ const RegisterPage = () => {
             />
           </Box>
           <Box mt={0}>
+            {loading && <CircularProgress size={20} color="inherit" />}
             {formik.values.role !== "admin" && (
               <SearchBox
                 name="organization_id"

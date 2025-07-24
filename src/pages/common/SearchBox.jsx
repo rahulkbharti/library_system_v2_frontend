@@ -1,10 +1,11 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, CircularProgress } from "@mui/material";
 import { FastField } from "formik";
 
 const SearchBox = ({
   name,
   label,
   options = [],
+  loading = false, // New prop to control loading state
   getOptionLabel = (option) => option.name || "",
   ...props
 }) => {
@@ -12,7 +13,8 @@ const SearchBox = ({
     <FastField name={name}>
       {({ field, form, meta }) => {
         // Field value stores ID, find the option
-        const selectedOption = options.find((opt) => opt.id === field.value) || null;
+        const selectedOption =
+          options.find((opt) => opt.id === field.value) || null;
 
         return (
           <Autocomplete
@@ -26,6 +28,7 @@ const SearchBox = ({
             }}
             onBlur={() => form.setFieldTouched(name, true)}
             ListboxProps={{ style: { maxHeight: 300, overflow: "auto" } }}
+            loading={loading} // Enable built-in loading state (optional)
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -34,6 +37,21 @@ const SearchBox = ({
                 margin="normal"
                 error={meta.touched && Boolean(meta.error)}
                 helperText={meta.touched && meta.error ? meta.error : ""}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <>
+                      {loading && (
+                        <CircularProgress
+                          color="inherit"
+                          size={20}
+                          sx={{ marginRight: 1 }}
+                        />
+                      )}
+                      {params.InputProps.startAdornment}
+                    </>
+                  ),
+                }}
               />
             )}
             {...props}

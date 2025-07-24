@@ -6,6 +6,7 @@ import DialogBox from "../common/DialogeBox";
 import AddOrganizationForm from "./organization_page/AddOrganizationForm";
 import ViewOrganization from "./organization_page/ViewOrganization";
 import DeleteDialog from "../common/DeleteBox";
+import { useSelector } from "react-redux";
 
 const COLUMNS = [
   { id: "organization_id", label: "Organization ID" },
@@ -25,11 +26,13 @@ const OrganizationPage = () => {
   });
   const [selectedOrganization, setSelectedOrganization] = useState(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
-
+  const admin_id = useSelector(
+    (state) => state?.auth?.login_data?.userData?.admin_id
+  );
   const fetchOrganizations = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await organizationApi.getOrganizations();
+      const response = await organizationApi.getOrganizations(admin_id);
       if (response.error) {
         console.error("Error fetching organizations:", response.error);
         setOrganizations([]);

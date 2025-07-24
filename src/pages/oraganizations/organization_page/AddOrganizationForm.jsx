@@ -9,11 +9,12 @@ import { FormikProvider, useFormik } from "formik";
 import PropTypes from "prop-types";
 import FormInput from "../../common/FormInput";
 import organizationApi from "../../../api/services/organization.api";
+import { use } from "react";
+import { useSelector } from "react-redux";
 
 const DEFAULT_VALUES = {
   name: "",
   address: "",
-  created_by_admin: "",
 };
 
 const AddOrganizationForm = ({
@@ -21,23 +22,30 @@ const AddOrganizationForm = ({
   edit = false,
   handleClose = () => {},
 }) => {
+  const admin_id = useSelector(
+    (state) => state?.auth?.login_data?.userData?.admin_id
+  );
+  // console.log("Admin ID:", admin_id);
   const formik = useFormik({
     initialValues: initialValues || DEFAULT_VALUES,
     onSubmit: async (values) => {
       try {
         if (edit) {
-          console.log("Editing organization:", values);
+          // console.log("Editing organization:", values);
           const body = {
             organization_id: values.organization_id,
             update: {
               name: values.name,
               address: values.address,
-              created_by_admin: values.created_by_admin,
+              created_by_admin: admin_id,
             },
           };
           await organizationApi.editOrganization(body);
         } else {
-          await organizationApi.addOrganization(values);
+          await organizationApi.addOrganization({
+            ...values,
+            created_by_admin: admin_id,
+          });
         }
         handleClose();
       } catch (error) {
@@ -52,13 +60,6 @@ const AddOrganizationForm = ({
         <Stack spacing={3} sx={{ mb: 3 }}>
           <FormInput name="name" label="Organization Name" required fullWidth />
           <FormInput name="address" label="Address" required fullWidth />
-          <FormInput
-            name="created_by_admin"
-            label="Admin ID"
-            type="number"
-            required
-            fullWidth
-          />
         </Stack>
 
         <DialogActions sx={{ px: 0 }}>
