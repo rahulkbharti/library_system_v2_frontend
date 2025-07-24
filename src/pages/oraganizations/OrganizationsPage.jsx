@@ -1,86 +1,137 @@
-import React, { useEffect, useState } from 'react';
-import DataTable from '../common/DataTable';
-// No API import is needed as we are using dummy data.
-// import organizationApi from '../../api/services/organization.api';
+import { useEffect, useState, useCallback } from "react";
+import DataTable from "../common/DataTable";
+import organizationApi from "../../api/services/organization.api";
+import CircularProgress from "@mui/material/CircularProgress";
+import DialogBox from "../common/DialogeBox";
+import AddOrganizationForm from "./organization_page/AddOrganizationForm";
+import ViewOrganization from "./organization_page/ViewOrganization";
+import DeleteDialog from "../common/DeleteBox";
 
-// Dummy data for a list of organizations or branches
-const dummyOrganizations = [
-  {
-    organization_id: 101,
-    name: 'Central City Library',
-    address: '123 Library Lane, Knowledge City, 400050',
-    phone: '022-23456789',
-    email: 'contact@centrallibrary.com',
-    website: 'www.centrallibrary.com'
-  },
-  {
-    organization_id: 102,
-    name: 'Northside Community Branch',
-    address: '456 Bookworm Avenue, North Town, 400061',
-    phone: '022-98765432',
-    email: 'support@northbranch.lib',
-    website: 'www.northbranch.lib'
-  },
-  {
-    organization_id: 103,
-    name: 'Westwood Tech Archive',
-    address: '789 Digital Drive, Tech Park, 400072',
-    phone: '022-55551234',
-    email: 'admin@westwoodarchive.tech',
-    website: 'www.westwoodarchive.tech'
-  },
+const COLUMNS = [
+  { id: "organization_id", label: "Organization ID" },
+  { id: "name", label: "Name" },
+  { id: "address", label: "Address" },
+  { id: "created_by_admin", label: "Admin ID" },
 ];
 
-
 const OrganizationPage = () => {
-    
-    const [organizations, setOrganizations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [organizations, setOrganizations] = useState([]);
+  const [dialogState, setDialogState] = useState({
+    add: false,
+    edit: false,
+    view: false,
+    delete: false,
+  });
+  const [selectedOrganization, setSelectedOrganization] = useState(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
-    useEffect(() => {
-        // In a real application, you would fetch this from an API.
-        // For this template, we just load the dummy data.
-        const fetchOrganizations = () => {
-            // No need for an async call here, but keeping the structure
-            // in case you want to swap in an API call later.
-            console.log("Organizations:", dummyOrganizations);
-            setOrganizations(dummyOrganizations);
-        };
-        fetchOrganizations();
-    }, []);
-
-
-  // Column configuration for the DataTable
-  const columns = [
-    {id:'organization_id', label: 'Org. ID'},
-    {id:'name', label: 'Name'},
-    {id:'phone', label: 'Contact Phone'},
-    {id:'email', label: 'Contact Email'},
-    {id:'website', label: 'Website'},
-  ];
-
-  // Control functions for the DataTable
-  const controls = {
-    title: 'Organization Management',
-    // NOTE: In a real app, there's often only one organization to edit.
-    // These controls are here to match the template's structure.
-    onView: (row) => alert(`Viewing: ${row.name}`),
-    onEdit: (row) => alert(`Editing: ${row.name}`),
-    onDelete: (row) => {
-      // Deleting an organization is a critical action, hence the confirm dialog.
-      if (window.confirm(`Are you sure you want to delete ${row.name}? This action cannot be undone.`)) {
-        alert(`Deleted: ${row.name}`);
-        // Here you would call an API to delete the item and then refresh the list.
+  const fetchOrganizations = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await organizationApi.getOrganizations();
+      if (response.error) {
+        console.error("Error fetching organizations:", response.error);
+        setOrganizations([]);
+      } else {
+        setOrganizations(response?.organizations || []);
       }
+    } catch (error) {
+      console.error("Error fetching organizations:", error);
+      setOrganizations([]);
+    } finally {
+      setLoading(false);
     }
+  }, [dialogState.add, dialogState.edit, dialogState.delete]);
+
+  useEffect(() => {
+    fetchOrganizations();
+  }, [fetchOrganizations, refreshFlag]);
+
+  const handleDialogClose = (key) => () => {
+    setDialogState((prev) => ({ ...prev, [key]: false }));
+  };
+
+  const handleOrganizationAction = (action, organization = null) => {
+    setSelectedOrganization(organization);
+    setDialogState((prev) => ({ ...prev, [action]: true }));
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedOrganization) return;
+    try {
+      await organizationApi.deleteOrganization(
+        selectedOrganization.organization_id
+      );
+      handleDialogClose("delete")();
+      setRefreshFlag((prev) => !prev);
+    } catch (error) {
+      console.error("Error deleting organization:", error);
+    }
+  };
+
+  const controls = {
+    title: "Organization Management",
+    onView: (row) => handleOrganizationAction("view", row),
+    onEdit: (row) => handleOrganizationAction("edit", row),
+    onDelete: (row) => handleOrganizationAction("delete", row),
   };
 
   return (
     <div>
-      <DataTable 
-        columns={columns} 
-        data={organizations} 
-        controls={controls} 
-        onAdd={()=>{alert("Add New Organization")}}
+      {/* Add Organization Dialog */}
+      <DialogBox
+        open={dialogState.add}
+        handleClose={handleDialogClose("add")}
+        title="Add New Organization"
+        maxWidth="md"
+      >
+        <AddOrganizationForm handleClose={handleDialogClose("add")} />
+      </DialogBox>
+
+      {/* Edit Organization Dialog */}
+      <DialogBox
+        open={dialogState.edit}
+        handleClose={handleDialogClose("edit")}
+        title="Edit Organization"
+        maxWidth="md"
+      >
+        <AddOrganizationForm
+          initialValues={selectedOrganization}
+          handleClose={handleDialogClose("edit")}
+          edit={true}
+        />
+      </DialogBox>
+
+      {/* View Organization Dialog */}
+      <DialogBox
+        open={dialogState.view}
+        handleClose={handleDialogClose("view")}
+        title="Organization Details"
+        maxWidth="md"
+      >
+        <ViewOrganization
+          organization={selectedOrganization}
+          handleClose={handleDialogClose("view")}
+        />
+      </DialogBox>
+
+      {/* Delete Organization Dialog */}
+      <DeleteDialog
+        open={dialogState.delete}
+        onClose={handleDialogClose("delete")}
+        itemName={selectedOrganization?.name || ""}
+        onConfirm={handleDeleteConfirm}
+      />
+
+      <DataTable
+        columns={COLUMNS}
+        data={organizations}
+        controls={controls}
+        onAdd={() => handleOrganizationAction("add")}
+        emptyStateComponent={
+          loading ? <CircularProgress /> : "No organizations available"
+        }
       />
     </div>
   );

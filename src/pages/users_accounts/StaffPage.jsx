@@ -1,59 +1,136 @@
-import { useEffect, useState } from 'react';
-import DataTable from '../common/DataTable';
-import staffApi from '../../api/services/staff.api';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useState, useCallback } from "react";
+import DataTable from "../common/DataTable";
+import staffApi from "../../api/services/staff.api";
+import CircularProgress from "@mui/material/CircularProgress";
+import DialogBox from "../common/DialogeBox";
+import AddStaffForm from "./staff_page/AddStaffForm";
+import ViewStaff from "./staff_page/ViewStaff";
+import DeleteDialog from "../common/DeleteBox";
+
+const COLUMNS = [
+  { id: "user_id", label: "Staff ID" },
+  { id: "username", label: "Username" },
+  { id: "email", label: "Email" },
+  { id: "first_name", label: "First Name" },
+  { id: "last_name", label: "Last Name" },
+];
 
 const StaffPage = () => {
-    const [loading, setLoading] = useState(true);
-    const [staffs,setStaffs] = useState([]);
-    useEffect(() => {
-        const fetchStaff = async () => {
-            const response = await staffApi.getStaffs();
-            if(response.error) {
-                console.error("Error fetching staffs:", response.error);
-                setStaffs([]);
-                setLoading(false);
-                return;
-            }
-            console.log("Staffs:", response?.staffs);
-            setStaffs( response?.staffs);
-            setLoading(false);
-        };
-        fetchStaff();
-        setLoading(true);
-    }, []);
+  const [loading, setLoading] = useState(true);
+  const [staffs, setStaffs] = useState([]);
+  const [dialogState, setDialogState] = useState({
+    add: false,
+    edit: false,
+    view: false,
+    delete: false,
+  });
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
-
-  // Column configuration
-const columns = [
-    {id:'user_id', label: 'Student ID', width:50},
-    {id:'full_name', label: 'Name', render: row => `${row.first_name} ${row.last_name}`},
-    {id:'email', label: 'Email'},
-    {id:'phone', label: 'Mobile No.'},
-    {id:"group_id", label: "Group", render: row => row.group_id ? row.group_id : 'N/A'},
-    {id : 'organization_id', label: 'Organization'},
-];  
-
-  // Control functions
-  const controls = {
-    title: 'Staff Management',
-    onView: (row) => alert(`Viewing: ${row.name}`),
-    onEdit: (row) => alert(`Editing: ${row.name}`),
-    onDelete: (row) => {
-      if (window.confirm(`Delete ${row.name}?`)) {
-        alert(`Deleted: ${row.name}`);
+  const fetchStaffs = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await staffApi.getStaffs();
+      if (response.error) {
+        console.error("Error fetching staff:", response.error);
+        setStaffs([]);
+      } else {
+        setStaffs(response?.staffs || []);
       }
+    } catch (error) {
+      console.error("Error fetching staff:", error);
+      setStaffs([]);
+    } finally {
+      setLoading(false);
     }
+  }, [dialogState.add, dialogState.edit, dialogState.delete]);
+
+  useEffect(() => {
+    fetchStaffs();
+  }, [fetchStaffs, refreshFlag]);
+
+  const handleDialogClose = (key) => () => {
+    setDialogState((prev) => ({ ...prev, [key]: false }));
+  };
+
+  const handleStaffAction = (action, staff = null) => {
+    setSelectedStaff(staff);
+    setDialogState((prev) => ({ ...prev, [action]: true }));
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedStaff) return;
+    try {
+      await staffApi.deleteStaff(selectedStaff.user_id);
+      handleDialogClose("delete")();
+      setRefreshFlag((prev) => !prev);
+    } catch (error) {
+      console.error("Error deleting staff:", error);
+    }
+  };
+
+  const controls = {
+    title: "Staff Management",
+    onView: (row) => handleStaffAction("view", row),
+    onEdit: (row) => handleStaffAction("edit", row),
+    onDelete: (row) => handleStaffAction("delete", row),
   };
 
   return (
     <div>
+      {/* Add Staff Dialog */}
+      <DialogBox
+        open={dialogState.add}
+        handleClose={handleDialogClose("add")}
+        title="Add New Staff"
+        maxWidth="md"
+      >
+        <AddStaffForm handleClose={handleDialogClose("add")} />
+      </DialogBox>
+
+      {/* Edit Staff Dialog */}
+      <DialogBox
+        open={dialogState.edit}
+        handleClose={handleDialogClose("edit")}
+        title="Edit Staff"
+        maxWidth="md"
+      >
+        <AddStaffForm
+          initialValues={selectedStaff}
+          handleClose={handleDialogClose("edit")}
+          edit={true}
+        />
+      </DialogBox>
+
+      {/* View Staff Dialog */}
+      <DialogBox
+        open={dialogState.view}
+        handleClose={handleDialogClose("view")}
+        title="Staff Details"
+        maxWidth="md"
+      >
+        <ViewStaff
+          staff={selectedStaff}
+          handleClose={handleDialogClose("view")}
+        />
+      </DialogBox>
+
+      {/* Delete Staff Dialog */}
+      <DeleteDialog
+        open={dialogState.delete}
+        onClose={handleDialogClose("delete")}
+        itemName={selectedStaff?.username || ""}
+        onConfirm={handleDeleteConfirm}
+      />
+
       <DataTable
-        columns={columns}
+        columns={COLUMNS}
         data={staffs}
         controls={controls}
-        onAdd={()=>{alert("add Student")}}
-        emptyStateComponent={loading ? <CircularProgress /> : "No staffs available"}
+        onAdd={() => handleStaffAction("add")}
+        emptyStateComponent={
+          loading ? <CircularProgress /> : "No staff members available"
+        }
       />
     </div>
   );
