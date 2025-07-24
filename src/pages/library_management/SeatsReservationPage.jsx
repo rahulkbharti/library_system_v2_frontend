@@ -8,8 +8,6 @@ import ViewReservation from "./reservation_page/ViewReservation";
 import DialogBox from "../common/DialogeBox";
 import DataTable from "../common/DataTable";
 import DeleteDialog from "../common/DeleteBox";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const COLUMNS = [
   { id: "reservation_id", label: "Reservation ID" },
@@ -93,9 +91,7 @@ const ReservationPage = () => {
         title="Add New Reservation"
         maxWidth="md"
       >
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <AddReservationForm handleClose={handleDialogClose("add")} />
-        </LocalizationProvider>
+        <AddReservationForm handleClose={handleDialogClose("add")} />
       </DialogBox>
 
       {/* Edit Reservation Dialog */}
@@ -105,13 +101,11 @@ const ReservationPage = () => {
         title="Edit Reservation"
         maxWidth="md"
       >
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <AddReservationForm
-            initialValues={selectedReservation}
-            handleClose={handleDialogClose("edit")}
-            edit={true}
-          />
-        </LocalizationProvider>
+        <AddReservationForm
+          initialValues={selectedReservation}
+          handleClose={handleDialogClose("edit")}
+          edit={true}
+        />
       </DialogBox>
 
       {/* View Reservation Dialog */}
