@@ -1,84 +1,127 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, CircularProgress } from "@mui/material";
 import DataTable from "../common/DataTable";
 import organizationApi from "../../api/services/organization.api";
-import CircularProgress from "@mui/material/CircularProgress";
 import DialogBox from "../common/DialogeBox";
 import AddOrganizationForm from "./organization_page/AddOrganizationForm";
 import ViewOrganization from "./organization_page/ViewOrganization";
 import DeleteDialog from "../common/DeleteBox";
-import { useSelector } from "react-redux";
-
-const COLUMNS = [
-  { id: "organization_id", label: "Organization ID" },
-  { id: "name", label: "Name" },
-  { id: "address", label: "Address" },
-  { id: "created_by_admin", label: "Admin ID" },
-];
+import {
+  setOrganizations,
+  selectOrganization,
+} from "../../store/features/organization/organizationSlice";
 
 const OrganizationPage = () => {
+  const dispatch = useDispatch();
+  const { organizations, selectedOrganization } = useSelector(
+    (state) => state.organization
+  );
+  const admin_id = useSelector(
+    (state) => state?.auth?.login_data?.userData?.admin_id
+  );
+
   const [loading, setLoading] = useState(true);
-  const [organizations, setOrganizations] = useState([]);
   const [dialogState, setDialogState] = useState({
     add: false,
     edit: false,
     view: false,
     delete: false,
   });
-  const [selectedOrganization, setSelectedOrganization] = useState(null);
+  const [selectedOrgForAction, setSelectedOrgForAction] = useState(null);
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const admin_id = useSelector(
-    (state) => state?.auth?.login_data?.userData?.admin_id
+
+  const handleActivation = useCallback(
+    (row) => {
+      setLoading(true);
+      dispatch(selectOrganization(row));
+      setLoading(false);
+    },
+    [dispatch]
   );
+
+  const COLUMNS = useMemo(
+    () => [
+      { id: "organization_id", label: "Organization ID" },
+      { id: "name", label: "Name" },
+      { id: "address", label: "Address" },
+      { id: "created_by_admin", label: "Admin ID" },
+      {
+        label: "Active",
+        render: (row) =>
+          row.organization_id === selectedOrganization?.organization_id ? (
+            "Active"
+          ) : (
+            <Button
+              size="small"
+              variant="contained"
+              onClick={() => handleActivation(row)}
+            >
+              Activate
+            </Button>
+          ),
+      },
+    ],
+    [selectedOrganization, handleActivation, refreshFlag]
+  );
+
   const fetchOrganizations = useCallback(async () => {
     setLoading(true);
     try {
       const response = await organizationApi.getOrganizations(admin_id);
       if (response.error) {
         console.error("Error fetching organizations:", response.error);
-        setOrganizations([]);
       } else {
-        setOrganizations(response?.organizations || []);
+        dispatch(setOrganizations(response?.organizations || []));
       }
     } catch (error) {
       console.error("Error fetching organizations:", error);
-      setOrganizations([]);
     } finally {
       setLoading(false);
     }
-  }, [dialogState.add, dialogState.edit, dialogState.delete]);
+  }, [admin_id, dispatch]);
 
   useEffect(() => {
     fetchOrganizations();
   }, [fetchOrganizations, refreshFlag]);
 
-  const handleDialogClose = (key) => () => {
-    setDialogState((prev) => ({ ...prev, [key]: false }));
-  };
+  const handleDialogClose = useCallback(
+    (key) => () => {
+      setDialogState((prev) => ({ ...prev, [key]: false }));
+    },
+    []
+  );
 
-  const handleOrganizationAction = (action, organization = null) => {
-    setSelectedOrganization(organization);
-    setDialogState((prev) => ({ ...prev, [action]: true }));
-  };
+  const handleOrganizationAction = useCallback(
+    (action, organization = null) => {
+      setSelectedOrgForAction(organization);
+      setDialogState((prev) => ({ ...prev, [action]: true }));
+    },
+    []
+  );
 
-  const handleDeleteConfirm = async () => {
-    if (!selectedOrganization) return;
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!selectedOrgForAction) return;
     try {
       await organizationApi.deleteOrganization(
-        selectedOrganization.organization_id
+        selectedOrgForAction.organization_id
       );
       handleDialogClose("delete")();
       setRefreshFlag((prev) => !prev);
     } catch (error) {
       console.error("Error deleting organization:", error);
     }
-  };
+  }, [selectedOrgForAction, handleDialogClose]);
 
-  const controls = {
-    title: "Organization Management",
-    onView: (row) => handleOrganizationAction("view", row),
-    onEdit: (row) => handleOrganizationAction("edit", row),
-    onDelete: (row) => handleOrganizationAction("delete", row),
-  };
+  const controls = useMemo(
+    () => ({
+      title: "Organization Management",
+      onView: (row) => handleOrganizationAction("view", row),
+      onEdit: (row) => handleOrganizationAction("edit", row),
+      onDelete: (row) => handleOrganizationAction("delete", row),
+    }),
+    [handleOrganizationAction]
+  );
 
   return (
     <div>
@@ -89,7 +132,10 @@ const OrganizationPage = () => {
         title="Add New Organization"
         maxWidth="md"
       >
-        <AddOrganizationForm handleClose={handleDialogClose("add")} />
+        <AddOrganizationForm
+          handleClose={handleDialogClose("add")}
+          organizations={organizations}
+        />
       </DialogBox>
 
       {/* Edit Organization Dialog */}
@@ -100,9 +146,9 @@ const OrganizationPage = () => {
         maxWidth="md"
       >
         <AddOrganizationForm
-          initialValues={selectedOrganization}
+          initialValues={selectedOrgForAction}
           handleClose={handleDialogClose("edit")}
-          edit={true}
+          edit
         />
       </DialogBox>
 
@@ -114,7 +160,7 @@ const OrganizationPage = () => {
         maxWidth="md"
       >
         <ViewOrganization
-          organization={selectedOrganization}
+          organization={selectedOrgForAction}
           handleClose={handleDialogClose("view")}
         />
       </DialogBox>
@@ -123,7 +169,7 @@ const OrganizationPage = () => {
       <DeleteDialog
         open={dialogState.delete}
         onClose={handleDialogClose("delete")}
-        itemName={selectedOrganization?.name || ""}
+        itemName={selectedOrgForAction?.name || ""}
         onConfirm={handleDeleteConfirm}
       />
 

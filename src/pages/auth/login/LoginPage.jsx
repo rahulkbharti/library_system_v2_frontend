@@ -13,27 +13,31 @@ import LayoutAuth from "../LayoutAuth";
 import { Box } from "@mui/system";
 import { FormikProvider, useFormik } from "formik";
 import FormInput from "../../common/FormInput";
-import { Link as RouterLink} from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import GoogleAuth from "../GoogleAuth";
-import loginSchema from "../../../schema/auth/loginSchema"; 
+import loginSchema from "../../../schema/auth/loginSchema";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/features/auth/authSlice";
+import organizationApi from "../../../api/services/organization.api";
+import {
+  setOrganizations,
+  selectOrganization,
+} from "../../../store/features/organization/organizationSlice";
 const AUTH_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage = () => {
-
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
-      role :"student",
+      role: "student",
     },
-    validationSchema:loginSchema,
+    validationSchema: loginSchema,
     onSubmit: async (values) => {
-      const body = {...values};
+      const body = { ...values };
       delete body.role;
       try {
         const res = await axios.post(
@@ -43,14 +47,31 @@ const LoginPage = () => {
         alert("User Login Successfully");
         // console.log(res)
         dispatch(login(res.data));
+        getOrganizations();
       } catch (err) {
         console.error("Error", err?.response?.data?.message);
         alert(err?.response?.data?.message + " Check your Role");
       }
     },
   });
+
+  const getOrganizations = async () => {
+    const response = await organizationApi.getOrganizations();
+    if (response.error) {
+      console.error("Error fetching organizations:", response.error);
+    } else {
+      dispatch(setOrganizations(response.organizations || []));
+      if (response.organizations.length > 0) {
+        dispatch(selectOrganization(response.organizations[0]));
+      }
+    }
+  };
   return (
-    <LayoutAuth coverImage={"https://images.unsplash.com/photo-1496307653780-42ee777d4833"}>
+    <LayoutAuth
+      coverImage={
+        "https://images.unsplash.com/photo-1496307653780-42ee777d4833"
+      }
+    >
       <FormikProvider value={formik}>
         <form onSubmit={formik.handleSubmit}>
           <Typography variant="h5" gutterBottom>
@@ -63,7 +84,13 @@ const LoginPage = () => {
           <Box mt={2}>
             <FormControl component="fieldset">
               <FormLabel component="legend">Role</FormLabel>
-              <RadioGroup row aria-label="role" name="role" value={formik.values.role} onChange={formik.handleChange}>
+              <RadioGroup
+                row
+                aria-label="role"
+                name="role"
+                value={formik.values.role}
+                onChange={formik.handleChange}
+              >
                 <FormControlLabel
                   value="student"
                   control={<Radio />}
@@ -107,12 +134,17 @@ const LoginPage = () => {
                 Sign In
               </Button>
               <Divider style={{ margin: "20px 0" }}>or</Divider>
-              <GoogleAuth extraData={{role:formik.values.role}}></GoogleAuth>
+              <GoogleAuth extraData={{ role: formik.values.role }}></GoogleAuth>
             </Box>
             <Box mt={2} display="flex" justifyContent="center">
               <Typography variant="body2">
                 Don't have an account?
-                <Link component={RouterLink} to="/register" underline="hover" color="primary">
+                <Link
+                  component={RouterLink}
+                  to="/register"
+                  underline="hover"
+                  color="primary"
+                >
                   Sign Up
                 </Link>
               </Typography>

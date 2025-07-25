@@ -7,7 +7,7 @@ import {
   CircularProgress,
   Autocomplete,
   TextField,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import { FormikProvider, useFormik } from "formik";
 import PropTypes from "prop-types";
@@ -20,7 +20,6 @@ const DEFAULT_VALUES = {
   barcode: "",
   status: "available",
   shelf_location: "",
-  organization_id: 101,
 };
 
 const STATUS_OPTIONS = [
@@ -30,7 +29,11 @@ const STATUS_OPTIONS = [
   { value: "damaged", label: "Damaged" },
 ];
 
-const AddBookCopyForm = ({ initialValues, edit = false, handleClose = () => {} }) => {
+const AddBookCopyForm = ({
+  initialValues,
+  edit = false,
+  handleClose = () => {},
+}) => {
   const [books, setBooks] = useState([]);
   const [loadingBooks, setLoadingBooks] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,7 +64,7 @@ const AddBookCopyForm = ({ initialValues, edit = false, handleClose = () => {} }
     onSubmit: async (values) => {
       try {
         if (edit) {
-          const {copy_id, book_title, created_at, ...body} = values;
+          const { copy_id, book_title, created_at, ...body } = values;
           await bookCopyApi.editBookCopy(copy_id, body);
         } else {
           await bookCopyApi.addBookCopy(values);
@@ -83,8 +86,13 @@ const AddBookCopyForm = ({ initialValues, edit = false, handleClose = () => {} }
             options={books}
             loading={loadingBooks}
             getOptionLabel={(option) => option.title || ""}
-            isOptionEqualToValue={(option, value) => option.book_id === value.book_id}
-            value={books.find(book => book.book_id === formik.values.book_id) || null}
+            isOptionEqualToValue={(option, value) =>
+              option.book_id === value.book_id
+            }
+            value={
+              books.find((book) => book.book_id === formik.values.book_id) ||
+              null
+            }
             onChange={(_, value) => {
               formik.setFieldValue("book_id", value?.book_id || null);
             }}
@@ -98,7 +106,9 @@ const AddBookCopyForm = ({ initialValues, edit = false, handleClose = () => {} }
                   ...params.InputProps,
                   endAdornment: (
                     <>
-                      {loadingBooks ? <CircularProgress color="inherit" size={20} /> : null}
+                      {loadingBooks ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
                       {params.InputProps.endAdornment}
                     </>
                   ),
@@ -109,12 +119,7 @@ const AddBookCopyForm = ({ initialValues, edit = false, handleClose = () => {} }
 
           {/* Book Copy Details */}
           <Stack direction="row" spacing={2}>
-            <FormInput
-              name="barcode"
-              label="Barcode"
-              required
-              fullWidth
-            />
+            <FormInput name="barcode" label="Barcode" required fullWidth />
             <FormInput
               name="shelf_location"
               label="Shelf Location"

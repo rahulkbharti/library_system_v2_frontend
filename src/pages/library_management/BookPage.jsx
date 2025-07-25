@@ -13,6 +13,7 @@ const COLUMNS = [
   { id: "publisher", label: "Publisher" },
   { id: "author", label: "Author" },
   { id: "isbn", label: "ISBN" },
+  { id: "organization_id", label: "Organization ID" },
 ];
 
 const BookPage = () => {
@@ -22,7 +23,7 @@ const BookPage = () => {
     add: false,
     edit: false,
     view: false,
-    delete: false
+    delete: false,
   });
   const [selectedBook, setSelectedBook] = useState(null);
   const [refreshFlag, setRefreshFlag] = useState(false); // Add refresh flag
@@ -50,20 +51,20 @@ const BookPage = () => {
   }, [fetchBooks, dialogState.add, dialogState.edit, refreshFlag]); // Add refreshFlag to dependencies
 
   const handleDialogClose = (key) => () => {
-    setDialogState(prev => ({ ...prev, [key]: false }));
+    setDialogState((prev) => ({ ...prev, [key]: false }));
   };
 
   const handleBookAction = (action, book = null) => {
     setSelectedBook(book);
-    setDialogState(prev => ({ ...prev, [action]: true }));
+    setDialogState((prev) => ({ ...prev, [action]: true }));
   };
 
   const handleDeleteConfirm = async () => {
     if (!selectedBook) return;
     try {
       await bookApi.DeleteBook(selectedBook.book_id);
-      handleDialogClose('delete')();
-      setRefreshFlag(prev => !prev); // Toggle refresh flag to trigger re-fetch
+      handleDialogClose("delete")();
+      setRefreshFlag((prev) => !prev); // Toggle refresh flag to trigger re-fetch
     } catch (error) {
       console.error("Error deleting book:", error);
     }
@@ -71,9 +72,9 @@ const BookPage = () => {
 
   const controls = {
     title: "Book Management",
-    onView: (row) => handleBookAction('view', row),
-    onEdit: (row) => handleBookAction('edit', row),
-    onDelete: (row) => handleBookAction('delete', row),
+    onView: (row) => handleBookAction("view", row),
+    onEdit: (row) => handleBookAction("edit", row),
+    onDelete: (row) => handleBookAction("delete", row),
   };
 
   return (
@@ -81,23 +82,23 @@ const BookPage = () => {
       {/* Add Book Dialog */}
       <DialogBox
         open={dialogState.add}
-        handleClose={handleDialogClose('add')}
+        handleClose={handleDialogClose("add")}
         title="Add New Book"
         maxWidth="md"
       >
-        <AddBookForm handleClose={handleDialogClose('add')} />
+        <AddBookForm handleClose={handleDialogClose("add")} />
       </DialogBox>
 
       {/* Edit Book Dialog */}
-      <DialogBox 
-        open={dialogState.edit} 
-        handleClose={handleDialogClose('edit')} 
-        title="Edit Book" 
+      <DialogBox
+        open={dialogState.edit}
+        handleClose={handleDialogClose("edit")}
+        title="Edit Book"
         maxWidth="md"
       >
-        <AddBookForm 
-          initialValues={selectedBook} 
-          handleClose={handleDialogClose('edit')} 
+        <AddBookForm
+          initialValues={selectedBook}
+          handleClose={handleDialogClose("edit")}
           edit={true}
         />
       </DialogBox>
@@ -105,18 +106,18 @@ const BookPage = () => {
       {/* View Book Dialog */}
       <DialogBox
         open={dialogState.view}
-        handleClose={handleDialogClose('view')}
+        handleClose={handleDialogClose("view")}
         title="View Book"
         maxWidth="md"
         fullWidth
       >
-        <ViewBook book={selectedBook} handleClose={handleDialogClose('view')} />
+        <ViewBook book={selectedBook} handleClose={handleDialogClose("view")} />
       </DialogBox>
 
       {/* Delete Book Dialog */}
       <DeleteDialog
         open={dialogState.delete}
-        onClose={handleDialogClose('delete')}
+        onClose={handleDialogClose("delete")}
         itemName={selectedBook?.title || ""}
         onConfirm={handleDeleteConfirm}
       />
@@ -125,13 +126,13 @@ const BookPage = () => {
         columns={COLUMNS}
         data={books}
         controls={controls}
-        onAdd={() => handleBookAction('add')}
+        onAdd={() => handleBookAction("add")}
         emptyStateComponent={
           loading ? <CircularProgress /> : "No books available"
         }
       />
     </div>
   );
-};  
+};
 
 export default BookPage;

@@ -15,18 +15,19 @@ import {
   ListItemText,
   List,
 } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/ExitToApp';
-import HelpIcon from '@mui/icons-material/Help';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import Business from '@mui/icons-material/Business';
+import SearchIcon from "@mui/icons-material/Search";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/ExitToApp";
+import HelpIcon from "@mui/icons-material/Help";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Business from "@mui/icons-material/Business";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/auth/authSlice";
 import { Link } from "react-router-dom";
+import { clearSelectedOrganization } from "../store/features/organization/organizationSlice";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,10 +67,16 @@ const Header = () => {
   ];
 
   const userData = useSelector((state) => state.auth.login_data.userData);
-  //   console.log(userData);
+  const organization = useSelector(
+    (state) => state.organization.selectedOrganization
+  );
+
+  // console.log(organization);
+
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearSelectedOrganization());
     // Optionally redirect to login page
   };
   return (
@@ -93,9 +100,22 @@ const Header = () => {
       }}
     >
       <Box>
-        <Typography variant="h6" gutterBottom>
-          Welcome back, {userData?.first_name?.charAt(0).toUpperCase() + userData?.first_name?.slice(1)} {userData?.last_name?.charAt(0).toUpperCase() + userData?.last_name?.slice(1)} !
+        <Typography variant="h6" fontWeight={600}>
+          {organization
+            ? organization.name + organization.organization_id
+            : "No Organization Selected"}
         </Typography>
+        <Typography variant="subtitle1" color="textSecondary">
+          {organization ? organization.address : "No organization selected"}
+        </Typography>
+        {/* <Typography variant="h6" gutterBottom>
+          Welcome back,{" "}
+          {userData?.first_name?.charAt(0).toUpperCase() +
+            userData?.first_name?.slice(1)}{" "}
+          {userData?.last_name?.charAt(0).toUpperCase() +
+            userData?.last_name?.slice(1)}{" "}
+          !
+        </Typography> */}
       </Box>
 
       <Box display="flex" alignItems="center" gap={2}>
@@ -293,11 +313,17 @@ const Header = () => {
             />
             <Box>
               <Typography variant="subtitle1" fontWeight={600}>
-                {userData?.first_name?.charAt(0).toUpperCase() + userData?.first_name?.slice(1)} {userData?.last_name?.charAt(0).toUpperCase() + userData?.last_name?.slice(1)} {userData?.role!= "admin" && (`(ORG${userData?.organization_id
-})`)}
+                {userData?.first_name?.charAt(0).toUpperCase() +
+                  userData?.first_name?.slice(1)}{" "}
+                {userData?.last_name?.charAt(0).toUpperCase() +
+                  userData?.last_name?.slice(1)}{" "}
+                {userData?.role != "admin" &&
+                  `(ORG${userData?.organization_id})`}
               </Typography>
               <Typography variant="caption" color="textSecondary">
-                {userData?.role?.charAt(0).toUpperCase() + userData?.role?.slice(1)} {userData?.email ? `(${userData?.email})` : ""} 
+                {userData?.role?.charAt(0).toUpperCase() +
+                  userData?.role?.slice(1)}{" "}
+                {userData?.email ? `(${userData?.email})` : ""}
               </Typography>
             </Box>
           </Box>

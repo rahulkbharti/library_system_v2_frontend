@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
-import { persistReducer, persistStore, 
-  FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER 
+import {
+  persistReducer, persistStore,
+  FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER
 } from 'redux-persist';
 import { encryptTransform } from 'redux-persist-transform-encrypt';
 
@@ -10,6 +11,7 @@ import { createStateSyncMiddleware } from 'redux-state-sync';
 import { withReduxStateSync } from 'redux-state-sync';
 
 import authReducer from "./features/auth/authSlice";
+import organizationReducer from "./features/organization/organizationSlice";
 
 // Redux State Sync Config
 const syncConfig = {
@@ -19,13 +21,14 @@ const syncConfig = {
 // Combine reducers
 const rootReducer = combineReducers({
   auth: authReducer,
+  organization: organizationReducer
 });
 
 // Persist config
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', "organization"], // only persist auth and organization slices
   transforms: [
     encryptTransform({
       secretKey: 'your-secret-key', // use env var in production

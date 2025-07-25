@@ -11,7 +11,7 @@ export const handleApiRequest = async (apiCall) => {
     const message =
       error.response?.data?.error ||
       "An unexpected error occurred. Please try again.";
-    alert(message);
+    // alert(message);
     return { error: true, message: message };
   }
 };
