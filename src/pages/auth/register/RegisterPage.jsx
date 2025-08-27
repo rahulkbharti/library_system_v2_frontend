@@ -150,6 +150,11 @@ const RegisterPage = () => {
                 color="primary"
                 fullWidth
                 type="submit"
+                startIcon={
+                  formik.isSubmitting ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null
+                }
               >
                 Sign UP
               </Button>

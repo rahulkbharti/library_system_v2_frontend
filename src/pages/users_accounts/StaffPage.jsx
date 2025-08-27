@@ -13,6 +13,8 @@ const COLUMNS = [
   { id: "email", label: "Email" },
   { id: "first_name", label: "First Name" },
   { id: "last_name", label: "Last Name" },
+  { id: "group_id", label: "Group ID" },
+  { id: "organization_id", label: "Organization ID" },
 ];
 
 const StaffPage = () => {

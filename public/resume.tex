@@ -1,0 +1,165 @@
+%-------------------------
+% Resume in Latex
+% Author: Shakra Shamim
+%------------------------
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-2pt}}}}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-6pt}
+}
+
+\newcommand{\resumeProjectHeading}[3]{
+    \item
+    \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+        \small #1 & \textbf{\small #2} \\%
+        \multicolumn{2}{l}{\small #3}%
+    \end{tabular*}\vspace{-6pt}
+}
+
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Rahul Kumar Bharti} \\ \vspace{4pt}
+    \textbf{\Large \scshape Mern Stack Developer} \\ \vspace{4pt}
+    \small \faPhone\ +91-7618805084 ~ 
+    \href{mailto:rahul.kbharti2002@gmail.com}{\faEnvelope\ \underline{rahul.kbharti2002@gmail.com}} ~ 
+    \href{https://www.linkedin.com/in/rahul-kbharti}{\faLinkedin\ \underline{linkedin.com/in/rahul-kbharti}} 
+    \href{https://github.com/rahulkbharti}{\faGithub\ \underline{github.com/rahulkbharti}} 
+\end{center}
+
+% %-----------SUMMARY-----------
+% \section{Summary}
+% Full Stack Developer skilled in building scalable, high-performance web applications using React.js, Node.js, Express.js, MongoDB, and MySQL. Experienced in implementing REST APIs, authentication (JWT, OAuth), and deploying production-ready applications.
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {B.Tech. in Information Technology}{Graduated: 2025}
+    {Govt. Engineering College, Ambedkar Nagar}{CGPA: 8.0 / 10}
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{Skills}
+\textbf{Frontend:} React.js, Next.js, Redux, Tailwind CSS, Material UI, HTML5, CSS3, Responsive Design \\
+\textbf{JavaScript Ecosystem:} JavaScript (ES6+), TypeScript, WebSockets \\
+\textbf{Backend:} Node.js, Express.js, Mongoose ORM, REST API Development, Authentication (JWT, OAuth) \\
+\textbf{Databases:} MongoDB, MySQL \\
+\textbf{Tools \& Platforms:} Git, GitHub, Postman, Figma, Render \\
+\textbf{Additional:} CI/CD (GitHub Actions), Docker (basic), Azure Blob Storage, Unit Testing (Jest)
+
+
+%-----------INTERNSHIP-----------
+\section{Experience}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Frontend Developer Intern}{October 2023 -- December 2023}
+    {Ekalsutra Edtech Pvt. Ltd., Akabarpur, Uttar Pradesh}{Tools Used: Excel, SQL, Power BI} 
+    \resumeItemListStart
+         \resumeItem{Developed a highly responsive, production-grade admin dashboard using React.js, Material UI, and Redux Toolkit, achieving 95\%+ design fidelity from Figma mockups.}
+         \resumeItem{Boosted performance by 30\% through API integration with React Query, implementing intelligent caching to minimize re-renders.}
+         \resumeItem{Built and deployed 15+ robust form workflows using Formik \& Yup, reducing validation errors by 25\% and improving user experience.}
+         \resumeItem{Secured application with JWT authentication, adding protected routes and token validation for enhanced security.}
+         \resumeItem{Executed 50+ API tests via Postman, ensuring high reliability and performance of integrated services.}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+\resumeSubHeadingListStart
+  % Project 1 Start
+  \resumeProjectHeading
+      {\textbf{Real-Time Video Chat App } $|$ \emph{React.js, WebRTC, Socket.io}}{February 2025 -- March 2025}
+      {Live: \href{https://real-time-video-chat.onrender.com/}{real-time-video-chat.onrender.com} $|$ 
+      GitHub: \href{https://github.com/rahulkbharti/real-time-video-chat}{github.com/rahulkbharti/real-time-video-chat}} 
+      \resumeItemListStart
+         \resumeItem{Built an Omegle-like real-time video chat platform using WebRTC and Socket.io, enabling peer-to-peer connections.}
+         \resumeItem{Developed interest-based matching with a queue system and semaphore locks, ensuring duplicate-free 1:1 pairing.}
+         \resumeItem{Created custom React hooks (useWebRTC, useMedia) for efficient WebRTC setup and media handling, reducing boilerplate and improving maintainability.}    
+      \resumeItemListEnd
+  % Project 2 Start
+   \resumeProjectHeading
+      {\textbf{Library Management ERP Solution } $|$ \emph{React.js, Node.js, MySQL}}{July 2025 -- August 2025}
+      {Live: \href{https://library-management-erp-solution.onrender.com/}{library-management-erp-solution.onrender.com/} $|$ GitHub: \href{https://github.com/rahulkbharti/}{github.com/rahulkbharti/}} 
+      \resumeItemListStart
+         \resumeItem{Engineered a full-stack ERP solution featuring a React.js + Material UI frontend and Node.js/Express backend, supporting 3 distinct user roles (Admin, Staff, Member).}
+         \resumeItem{Implemented secure authentication using JWT + Google OAuth 2.0 with redux-persist for session management.}
+         \resumeItem{Designed a normalized MySQL database ensuring data consistency, isolation, and security for multi-role operations.}
+         \resumeItem{Developed 15+ Formik forms with Yup validation and Axios interceptors, improving data integrity and error handling.}
+      \resumeItemListEnd
+      
+  % Project 3 Start
+   \resumeProjectHeading
+      {\textbf{M3U8 Video Streaming App} $|$ \emph{FFmpeg, Azure Blob Storage, MongoDB, HLS.js, Nodejs}}{March 2025 -- April 2025}
+      {Live: \href{https://rahulkbharti.github.io/m3u8-video-streaming}{rahulkbharti.github.io/m3u8-video-streaming} $|$ GitHub: \href{https://github.com/rahulkbharti/}{github.com/rahulkbharti/}} 
+      \resumeItemListStart
+         \resumeItem{Developed a scalable adaptive video streaming service using Node.js with FFmpeg and Azure Blob Storage, enabling multi-resolution HLS streaming.}
+         \resumeItem{Implemented secure dynamic M3U8 playlist generation with signed URLs and expiry tokens, backed by MongoDB for metadata.}
+         \resumeItem{Designed a responsive video player using HLS.js + Plyr.js, supporting adaptive bitrate and video thumbnails.}
+      \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------AWARDS-----------
+\section{Awards \& Certifications}
+\resumeItemListStart
+
+  \resumeItem{\textbf{Top 0.5\% in TCS CodeVita – 2024:} Ranked among top 1961 out of more than 4,40,000 participants for advanced problem-solving.}
+
+\resumeItemListEnd
+
+
+
+\end{document}

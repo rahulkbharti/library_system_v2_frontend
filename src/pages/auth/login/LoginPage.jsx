@@ -8,6 +8,7 @@ import {
   Link,
   RadioGroup,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import LayoutAuth from "../LayoutAuth";
 import { Box } from "@mui/system";
@@ -130,13 +131,24 @@ const LoginPage = () => {
                 color="primary"
                 fullWidth
                 type="submit"
+                startIcon={
+                  formik.isSubmitting ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : null
+                }
               >
                 Sign In
               </Button>
               <Divider style={{ margin: "20px 0" }}>or</Divider>
               <GoogleAuth extraData={{ role: formik.values.role }}></GoogleAuth>
             </Box>
-            <Box mt={2} display="flex" justifyContent="center">
+            <Box
+              mt={2}
+              display="flex"
+              justifyContent="center"
+              flexDirection={"column"}
+              alignItems="center"
+            >
               <Typography variant="body2">
                 Don't have an account?
                 <Link
@@ -147,6 +159,10 @@ const LoginPage = () => {
                 >
                   Sign Up
                 </Link>
+              </Typography>
+              <Typography variant="body2" color="textSecondary" ml={1}>
+                <b>Note:</b> You may have to wait first time because I uses free
+                server to deploy. create an account first and then login.
               </Typography>
             </Box>
           </Box>

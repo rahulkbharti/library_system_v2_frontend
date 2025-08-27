@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBox from "../common/AutoComplete"; // simple autocomplete without Formik
 const AUTH_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import organizationApi from "../../api/services/organization.api";
 
 const GoogleButton = styled(Button)`
   text-transform: none;
@@ -30,11 +31,31 @@ const GoogleAuth = ({ extraData }) => {
   const dispatch = useDispatch();
   const [orgDialogOpen, setOrgDialogOpen] = useState(false);
   const [orgId, setOrgId] = useState("");
+  const [organizations, setOrganizations] = useState([]);
 
-  const organizations = [
-    { name: "Library Kahotri", id: 101 },
-    { name: "Library Jargo", id: 102 },
-  ];
+  // const organizations = [
+  //   { name: "Library Kahotri", id: 101 },
+  //   { name: "Library Jargo", id: 102 },
+  // ];
+
+  const fetchOrganizations = async () => {
+    const response = await organizationApi.getOrganizations();
+    if (response.error) {
+      console.error("Error fetching organizations:", response.error);
+      return;
+    }
+    // Assuming response.data is an array of organizations
+    console.log(response?.organizations || []);
+    setOrganizations(
+      response?.organizations.map((item) => ({
+        id: item.organization_id,
+        name: item.name,
+      })) || []
+    );
+  };
+  useEffect(() => {
+    fetchOrganizations();
+  }, []);
 
   const googleAuth = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -48,10 +69,14 @@ const GoogleAuth = ({ extraData }) => {
       try {
         const res = await axios.post(`${AUTH_URL}/auth/google/continue`, body);
         dispatch(login(res.data));
-        alert(`Welcome ${res.data?.userData?.first_name} ${res?.data?.userData?.last_name}!`);
+        alert(
+          `Welcome ${res.data?.userData?.first_name} ${res?.data?.userData?.last_name}!`
+        );
       } catch (error) {
         // console.error("Error sending token to backend:", error.response);
-        alert(error?.response?.data?.message || "Login failed. Please try again.");
+        alert(
+          error?.response?.data?.message || "Login failed. Please try again."
+        );
       }
       setOrgDialogOpen(false);
     },
@@ -69,14 +94,14 @@ const GoogleAuth = ({ extraData }) => {
     }
     googleAuth();
   };
-  
-  const handleAuth = ()=>{
-    if(extraData.role !== "admin"){
-        setOrgDialogOpen(true);
-    }else{
-         googleAuth();
+
+  const handleAuth = () => {
+    if (extraData.role !== "admin") {
+      setOrgDialogOpen(true);
+    } else {
+      googleAuth();
     }
-  }
+  };
   return (
     <>
       <Dialog open={orgDialogOpen} onClose={() => setOrgDialogOpen(false)}>
