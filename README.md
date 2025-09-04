@@ -1,12 +1,38 @@
-# React + Vite
+# Library Management ERP - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the frontend of the Library Management ERP Solution! This project is a modern, responsive, and feature-rich user interface built with React and Vite. It leverages Material-UI for a clean design, Redux for robust state management, and JWT for secure authentication.
 
-Currently, two official plugins are available:
+You can see here [Library Management ERP Solution](https://library-management-erp-solution.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## Expanding the ESLint configuration
+- Framework: React
+- Build Tool: Vite
+- UI Library: Material-UI (MUI)
+- State Management: Redux Toolkit
+- Authentication: JSON Web Tokens (JWT)
+- Routing: React Router
+- API Calls: Axios , React-Query, Formik, Yup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Output Screenshots
+
+### Login Screen
+
+![Login Screen](./docs/screenshots/login.png)
+
+### Dashboard
+
+![Permission Page](./docs/screenshots/permission.png)
+
+## Geting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/rahulkbharti/library_system_v2_frontend.git
+# Goes in directory
+cd library_system_v2_frontend
+# installl
+npm i
+# Run the development server
+npm run dev
+```
